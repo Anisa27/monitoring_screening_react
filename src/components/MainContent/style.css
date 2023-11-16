@@ -1,0 +1,19 @@
+.content{
+    width: 100%;
+    background-color: rgb(241, 241, 241);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+}
+.filter{
+    width: 50%;
+}
+.filter-row{
+    margin-top: 15px;
+}
+.field-input{
+    width: 100%;
+}
+.filter-label{
+    font-size: 1.2em;
+}
