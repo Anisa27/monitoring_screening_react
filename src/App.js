@@ -6,6 +6,7 @@ import Screening2 from "./pages/Screening2";
 import Screening3 from "./pages/Screening3";
 import Detail from "./pages/Detail";
 
+// var app
 const App=()=> {
   return (
     <>
