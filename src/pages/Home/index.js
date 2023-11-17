@@ -8,7 +8,7 @@ import SidebarMenu from "../../components/SidebarMenu"
 const Home =()=>{
     return(
         <div className="layout">
-            <TitleBar title='ini page home'/>
+            <TitleBar title='Monitoring Screening'/>
             <div className="main">
                 <SidebarMenu/>
                 <MainContent/>

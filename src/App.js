@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Screening1 from "./pages/Screening1";
 import Screening2 from "./pages/Screening2";
 import Screening3 from "./pages/Screening3";
+import Detail from "./pages/Detail";
 
 const App=()=> {
   return (
@@ -14,6 +15,7 @@ const App=()=> {
           <Route path='/sc1' element={<Screening1/>}></Route>
           <Route path='/sc2' element={<Screening2/>}></Route>
           <Route path='/sc3' element={<Screening3/>}></Route>
+          <Route path='/sc1/detail' element={<Detail/>}></Route>
         </Routes>
       </Router>
     </>
