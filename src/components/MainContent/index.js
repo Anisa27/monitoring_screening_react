@@ -89,7 +89,7 @@ const MainContent = (props) => {
       tgl_order: "2023-10-11",
       cabang: "Bekasi",
       nama_customer: "Arman",
-      hasil_screening: "INSTAN APPROVAL",
+      hasil_screening: "INSTANT APPROVAL",
     },
   ];
 
