@@ -11,7 +11,10 @@ const Screening3 = () =>{
             <TitleBar title='ini page Screening 3'/>
             <div className="main">
                 <SidebarMenu/>
-                <MainContent/>
+                <MainContent
+                    title='Screening 3'
+                    detailPage='/sc3/detail'
+                />
             </div>
             <Footer/>
         </div>
