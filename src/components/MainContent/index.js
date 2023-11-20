@@ -18,6 +18,7 @@ const filterOption = (input, option) =>
 const { RangePicker } = DatePicker;
 
 const MainContent = (props) => {
+  //useState here
   return (
     <div className="content">
       <div className="title">{props.title}</div>
