@@ -9,12 +9,19 @@ const Detail = () => {
 
   const baseURL = `http://localhost:4000/getDetailGrading/${order_id}`;
   const baseURLRes = `http://localhost:4000/getPayloadResult/${order_id}`;
+  const baseURLReq = `http://localhost:4000/getPayloadRequest/${order_id}`;
   const [detailGrading, setDetailGrading] = useState([]);
+  const [detailGrading2, setDetailGrading2] = useState([]);
   const [detailGrading3, setDetailGrading3] = useState([]);
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
       setDetailGrading(response.data.result);
+      console.log(response.data.result);
+    });
+
+    axios.get(baseURLReq).then((response) => {
+      setDetailGrading2(response.data.result);
       console.log(response.data.result);
     });
 
@@ -95,7 +102,7 @@ const Detail = () => {
     if (param.flag_result_grading === 1) {
       stat = "OK";
     } else {
-      stat = "NOT OK";
+      stat = "PENDING";
     }
     data1.push({
       key: index,
@@ -146,18 +153,75 @@ const Detail = () => {
     },
   ];
 
-  const data2 = [
-    {
-      key: "1",
-      key_brms_old: "AP0001",
-      key_brms_new: "custSlik",
-      result: "MEDIUM",
-      create_date: "2023-11-15",
-      update_date: "2023-11-16",
-      durasi: "5 menit",
-      status: "OK",
-    },
-  ];
+  const data2 = [];
+  detailGrading2.forEach((param,index) => {
+    let res = '';
+    const padWithZeros = (number) => {
+      return number < 10 ? "0" + number : number;
+    };
+    let stat = ''
+    let dateCreate = new Date(param.created_date);
+    let dateUpdate = new Date(param.updated_date);
+    let durasiUpdate = dateUpdate - dateCreate;
+    let dateDurasi = new Date(durasiUpdate);
+    let formattedDifference = dateDurasi.toISOString().substr(11, 8);
+
+    if (param.payload_data_type == "1"){
+      res = param.payload_str_val
+    } else if (param.payload_data_type == "2"){
+      res = param.payload_int_val
+    } else if (param.payload_data_type == "3"){
+      res = param.payload_dbl_val
+    } else if (param.payload_data_type == "4"){
+      res = param.payload_dbl_val_1
+    } else if (param.payload_data_type == "5"){
+      res = param.payload_dbl_val_2
+    } else if (param.payload_data_type == "6"){
+      res = param.payload_dbl_val_3
+    }
+
+    let create_date =
+      padWithZeros(dateCreate.getDate()) +
+      "-" +
+      padWithZeros(dateCreate.toLocaleString("default", { month: "short" })) +
+      "-" +
+      dateCreate.getFullYear() +
+      " " +
+      padWithZeros(dateCreate.getHours()) +
+      ":" +
+      padWithZeros(dateCreate.getMinutes()) +
+      ":" +
+      padWithZeros(dateCreate.getSeconds());
+    let update_date =
+      padWithZeros(dateUpdate.getDate()) +
+      "-" +
+      padWithZeros(dateUpdate.toLocaleString("default", { month: "short" })) +
+      "-" +
+      dateUpdate.getFullYear() +
+      " " +
+      padWithZeros(dateUpdate.getHours()) +
+      ":" +
+      padWithZeros(dateUpdate.getMinutes()) +
+      ":" +
+      padWithZeros(dateUpdate.getSeconds());
+
+      if (param.status === 1) {
+        stat = "OK";
+      } else {
+        stat = "PENDING";
+      }
+
+    data2.push({
+      key: index,
+      key_brms_old: param.brms_key_old,
+      key_brms_new: param.brms_key_new,
+      result: res,
+      create_date: create_date,
+      update_date: update_date,
+      durasi: formattedDifference,
+      status: stat,
+    });
+  });
 
   const columns3 = [
     {

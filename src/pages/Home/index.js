@@ -11,7 +11,6 @@ const Home =()=>{
             <TitleBar title='Monitoring Screening'/>
             <div className="main">
                 <SidebarMenu/>
-                <MainContent/>
             </div>
             <Footer/>
         </div>

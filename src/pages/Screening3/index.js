@@ -13,7 +13,7 @@ const Screening3 = () =>{
                 <SidebarMenu/>
                 <MainContent
                     title='Screening 3'
-                    detailPage='/sc3/detail'
+                    detailPage='/sc3/detail/'
                 />
             </div>
             <Footer/>

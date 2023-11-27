@@ -16,8 +16,8 @@ const App=()=> {
           <Route path='/sc2' element={<Screening2/>}></Route>
           <Route path='/sc3' element={<Screening3/>}></Route>
           <Route path='/sc1/detail/:order_id' element={<MainDetail/>}></Route>
-          <Route path='/sc2/detail' element={<MainDetail/>}></Route>
-          <Route path='/sc3/detail' element={<MainDetail/>}></Route>
+          <Route path='/sc2/detail/:order_id' element={<MainDetail/>}></Route>
+          <Route path='/sc3/detail/:order_id' element={<MainDetail/>}></Route>
         </Routes>
       </Router>
     </>
