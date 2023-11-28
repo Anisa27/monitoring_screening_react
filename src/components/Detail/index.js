@@ -4,12 +4,12 @@ import MainTable from "../MainTable";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const Detail = () => {
+const Detail = (props) => {
   const { order_id } = useParams();
 
-  const baseURL = `http://localhost:4000/getDetailGrading/${order_id}`;
-  const baseURLRes = `http://localhost:4000/getPayloadResult/${order_id}`;
-  const baseURLReq = `http://localhost:4000/getPayloadRequest/${order_id}`;
+  const baseURL = `http://localhost:4000/${props.detailGrading}/${order_id}`;
+  const baseURLRes = `http://localhost:4000/${props.payloadRes}/${order_id}`;
+  const baseURLReq = `http://localhost:4000/${props.payloadReq}/${order_id}`;
   const [detailGrading, setDetailGrading] = useState([]);
   const [detailGrading2, setDetailGrading2] = useState([]);
   const [detailGrading3, setDetailGrading3] = useState([]);

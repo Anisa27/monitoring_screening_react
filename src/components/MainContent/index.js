@@ -5,12 +5,7 @@ import MainTable from "../MainTable";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
-const onSearch = (value) => {
-  console.log("search:", value);
-};
+
 
 // Filter `option.label` match the user type `input`
 const filterOption = (input, option) =>
@@ -25,18 +20,53 @@ const MainContent = (props) => {
   const ref = useRef(null);
 
   const [searchClicks, setSearchClicks] = useState(0);
+  const [branchList, setBranchList] = useState([])
+  const [cabang,setCabang] = useState('')
+  const [order,setOrder] = useState('')
+  const [periode,setPeriode] = useState('')
+  const [customer,setCustomer] = useState('')
 
-  const baseURL = "http://localhost:4000/getScoring";
+  const baseURL = "http://localhost:4000/"+props.scoring;
+  const branchURL = 'http://localhost:4000/getListBranch'
   const [post, setPost] = useState([]);
+  
+  
+  
+  const onChangeCabang = (val) => {
+    console.log(`selected ${val}`);
+    setCabang(val)
+  };
+  const onSearchCabang = (value) => {
+    console.log("search:", value);
+  };
+  const onChangeOrder = (event) => {
+    setOrder(event.target.value)
+  }
+  const onChangePeriode = (event) => {
+    setPeriode(event.target.value)
+  }
+  const onChangeCustomer = (event) => {
+    setCustomer(event.target.value)
+  }
+  useEffect(() =>{
+    console.log('ngetestttt =', cabang)
+  },[cabang])
 
-  useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setPost(response.data);
-    });
-  }, [searchClicks]);
+  
 
   const handleButtonClick = () => {
     setSearchClicks((prev) => prev + 1);
+
+    const getScreening = {
+      cabang: cabang,
+      no_order: order,
+      periode: periode,
+      nama_customer: customer
+    }
+
+      axios.get(baseURL).then((response) => {
+        setPost(response.data);
+      });
   };
 
   console.log(post);
@@ -113,6 +143,20 @@ const MainContent = (props) => {
     });
   });
 
+  useEffect(() => {
+    axios.get(branchURL).then((response) => {
+      setBranchList(response.data.data.data);
+      console.log('branch list =',response.data.data.data)
+    });
+  }, [])
+  const branch = []
+  branchList.forEach((param,index) =>{
+    branch.push({
+      value:param.BRANCH_CODE,
+      label:param.BRANCH_NAME
+    })
+  })
+
   return (
     <div className="content">
       <div className="title">{props.title}</div>
@@ -126,26 +170,14 @@ const MainContent = (props) => {
             <Col span={12}>
               <Select
                 showSearch
-                placeholder="Select a person"
+                placeholder="Pilih cabang"
                 className="field-input"
+                id="cabang"
                 optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
+                onChange={onChangeCabang}
+                onSearch={onSearchCabang}
                 filterOption={filterOption}
-                options={[
-                  {
-                    value: "jack",
-                    label: "Jack",
-                  },
-                  {
-                    value: "lucy",
-                    label: "Lucy",
-                  },
-                  {
-                    value: "tom",
-                    label: "Tom",
-                  },
-                ]}
+                options={branch}
               />
             </Col>
           </Row>
@@ -166,6 +198,7 @@ const MainContent = (props) => {
                 disabled={isDisabled}
                 id="radio-order"
                 placeholder="No. Order"
+                onChange={onChangeOrder}
               />
             </Col>
           </Row>
@@ -187,6 +220,7 @@ const MainContent = (props) => {
                 disabled={isDisabled2}
                 id="radio-periode"
                 className="field-input"
+                onChange={onChangePeriode}
               />
             </Col>
           </Row>
@@ -207,6 +241,7 @@ const MainContent = (props) => {
                 disabled={isDisabled3}
                 id="radio-name"
                 placeholder="Nama Customer"
+                onChange={onChangeCustomer}
               />
             </Col>
           </Row>

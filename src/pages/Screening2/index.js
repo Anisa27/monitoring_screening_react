@@ -14,6 +14,7 @@ const Screening2 = () =>{
                 <MainContent
                     title='Screening 2'
                     detailPage='/sc2/detail/'
+                    scoring='sc2/getScoring'
                 />
             </div>
             <Footer/>
