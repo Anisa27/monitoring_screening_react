@@ -14,16 +14,17 @@ const filterOption = (input, option) =>
 const { RangePicker } = DatePicker;
 
 const MainContent = (props) => {
-  const [isDisabled, setDisabled] = useState(true);
+  const [isDisabled, setDisabled] = useState(false);
   const [isDisabled2, setDisabled2] = useState(true);
   const [isDisabled3, setDisabled3] = useState(true);
+  const [selectedOption, setSelectedOption] = useState('0');
   const ref = useRef(null);
 
   const [searchClicks, setSearchClicks] = useState(0);
   const [branchList, setBranchList] = useState([])
   const [cabang,setCabang] = useState('')
   const [order,setOrder] = useState('')
-  const [periode,setPeriode] = useState('')
+  const [periode,setPeriode] = useState([])
   const [customer,setCustomer] = useState('')
 
   const baseURL = "http://localhost:4000/"+props.scoring;
@@ -42,8 +43,9 @@ const MainContent = (props) => {
   const onChangeOrder = (event) => {
     setOrder(event.target.value)
   }
-  const onChangePeriode = (event) => {
-    setPeriode(event.target.value)
+  const onChangePeriode = (dates, dateStrings) => {
+    
+    setPeriode(dateStrings)
   }
   const onChangeCustomer = (event) => {
     setCustomer(event.target.value)
@@ -63,9 +65,12 @@ const MainContent = (props) => {
       periode: periode,
       nama_customer: customer
     }
+    console.log(' get screening array =', getScreening)
 
-      axios.get(baseURL).then((response) => {
+      axios.post(baseURL, getScreening).then((response) => {
         setPost(response.data);
+      }).catch((err) =>{
+        console.log("error request getScoring ",err)
       });
   };
 
@@ -76,17 +81,25 @@ const MainContent = (props) => {
       setDisabled(false);
       setDisabled2(true);
       setDisabled3(true);
+      setPeriode([])
+      setCustomer('')
     } else if (event.target.value == "1") {
       setDisabled2(false);
       setDisabled(true);
       setDisabled3(true);
+      setOrder('')
+      setCustomer('')
     } else if (event.target.value == "2") {
       setDisabled3(false);
       setDisabled2(true);
       setDisabled(true);
+      setOrder('')
+      setPeriode([])
     }
+    setSelectedOption(event.target.value);
     // const radio_order = document.getElementById('radio-order').disabled(false);
   };
+
   const detailPage = (order_id) => {
     const url = `${props.detailPage}${order_id}`
     window.location.href = url;
@@ -189,6 +202,7 @@ const MainContent = (props) => {
                 aria-label="No. Order"
                 name="radio-filter"
                 onChange={handleChange}
+                checked={selectedOption === '0'}
               />
               <label htmlFor="no-order">No. Order</label>
             </Col>
@@ -199,6 +213,7 @@ const MainContent = (props) => {
                 id="radio-order"
                 placeholder="No. Order"
                 onChange={onChangeOrder}
+                value={order}
               />
             </Col>
           </Row>
@@ -210,6 +225,7 @@ const MainContent = (props) => {
                 aria-label="periode"
                 name="radio-filter"
                 onChange={handleChange}
+                checked={selectedOption === '1'}
               />
               <label htmlFor="periode">Periode</label>
             </Col>
@@ -232,6 +248,7 @@ const MainContent = (props) => {
                 aria-label="Nama Customer"
                 name="radio-filter"
                 onChange={handleChange}
+                checked={selectedOption === '2'}
               />
               <label htmlFor="nama">Nama Customer</label>
             </Col>
@@ -242,6 +259,7 @@ const MainContent = (props) => {
                 id="radio-name"
                 placeholder="Nama Customer"
                 onChange={onChangeCustomer}
+                value={customer}
               />
             </Col>
           </Row>
