@@ -50,6 +50,10 @@ const MainContent = (props) => {
   const onChangeCustomer = (event) => {
     setCustomer(event.target.value)
   }
+  const toUpperCaseInput = (event) => {
+    const inputVal = event.target.value.toUpperCase()
+      event.target.value = inputVal
+  }
   useEffect(() =>{
     console.log('ngetestttt =', cabang)
   },[cabang])
@@ -62,7 +66,8 @@ const MainContent = (props) => {
     const getScreening = {
       cabang: cabang,
       no_order: order,
-      periode: periode,
+      start_date: periode[0],
+      end_date: periode[1],
       nama_customer: customer
     }
     console.log(' get screening array =', getScreening)
@@ -260,6 +265,7 @@ const MainContent = (props) => {
                 placeholder="Nama Customer"
                 onChange={onChangeCustomer}
                 value={customer}
+                onInput={toUpperCaseInput}
               />
             </Col>
           </Row>
